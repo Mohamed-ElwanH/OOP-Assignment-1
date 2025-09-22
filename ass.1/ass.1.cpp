@@ -1,4 +1,4 @@
- #include "image_class.h"
+#include "image_class.h"
 #include <bits/stdc++.h>
 using namespace std;
 void BlackAndWhite(Image &image)
