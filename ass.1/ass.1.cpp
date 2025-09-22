@@ -50,5 +50,8 @@ int main()
     }
 }
 
+
+
+//hate all
 //me
 //hate niggers
