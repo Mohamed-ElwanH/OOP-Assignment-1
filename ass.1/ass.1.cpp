@@ -1,7 +1,6 @@
  #include "image_class.h"
 #include <bits/stdc++.h>
 using namespace std;
-
 void BlackAndWhite(Image &image)
 {
     for (int i = 0; i < image.width; i++)
@@ -21,19 +20,6 @@ void BlackAndWhite(Image &image)
         }
     }
 }
-void GrayScale()
-{
-
-
-
-
-
-
-
-
-
-    //no
-}
 int GetChoice()
 {
     int choice;
@@ -47,7 +33,6 @@ int GetChoice()
     cin >> choice;
     return choice;
 }
-
 int main()
 {
     Image usedImage;
@@ -62,8 +47,3 @@ int main()
         break;
     }
 }
-
-
-
-//hate all
-//me
