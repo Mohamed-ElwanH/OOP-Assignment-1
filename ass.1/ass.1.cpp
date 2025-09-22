@@ -21,6 +21,19 @@ void BlackAndWhite(Image &image)
         }
     }
 }
+void GrayScale()
+{
+
+
+
+
+
+
+
+
+
+    //no
+}
 int GetChoice()
 {
     int choice;
