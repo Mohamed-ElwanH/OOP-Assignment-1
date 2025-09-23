@@ -49,7 +49,7 @@ void BlackAndWhite(Image &image)
 int GetChoice()
 {
     int choice;
-    vector<string> choices = {"1-Black-And-White filter", "2-", "3-", "4-"};
+    vector<string> choices = {"1-GrayScale filter", "2-", "3-", "4-"};
     cout << "Choose" << endl;
     for (int i = 0; i < choices.size(); i++)
     {
