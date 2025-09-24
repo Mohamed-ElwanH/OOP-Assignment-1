@@ -57,10 +57,59 @@ void invert (Image &image) {
         }
     }
 }
+void rotate (Image &image){
+    
+    int deg;
+    cout<<"choose a rotation degree: \n 1-90 \n 2-180 \n 3-270 \n";
+    cin>>deg;
+    if (deg==1){
+        Image rotated(image.height,image.width);
+        for(int i=0;i<image.height;i++){
+            for(int j=0;j<image.width;j++){
+                for(int k=0;k<3;k++){
+                    rotated(i,j,k)= image(j,image.height-1-i,k); //new row = old column
+                }
+
+            }
+        }
+        image=rotated;
+
+    }
+    else if(deg ==2 ){
+        Image rotated(image.width,image.height);
+        for (int i=0 ; i< image.width; i++){
+            for(int j=0; j< image.height; j++){
+                for(int k=0;k<3;k++){
+                    rotated(i,j,k) = image(image.width-1-i,image.height-1-j,k); //rows flipped vertically col flipped horizontally
+                
+            }
+            
+        }
+        
+        
+        }
+        image = rotated;
+    }
+    else if(deg==3){
+         Image rotated(image.height,image.width);
+        for(int i=0;i<image.height;i++){
+            for(int j=0;j<image.width;j++){
+                for(int k=0;k<3;k++){
+                    rotated(i,j,k)= image(image.width-1-j,i,k); //new column = old row
+                }
+
+            }
+        }
+
+        image=rotated;
+    }
+     
+    
+}
 int GetChoice()
 {
     int choice;
-    vector<string> choices = {"1-GrayScale filter", "2-BlackAndWhite filter", "3-Invert filter", "4-","5-"};
+    vector<string> choices = {"1-GrayScale filter", "2-BlackAndWhite filter", "3-Invert filter", "4-rotate","5-"};
     cout << "Choose" << endl;
     for (int i = 0; i < choices.size(); i++)
     {
@@ -89,7 +138,12 @@ int main()
     case 3:
        invert(usedImage);
        usedImage.saveImage("NewInverted.png");
-       break;    
+       break;
+    case 4:
+       rotate(usedImage);
+       usedImage.saveImage("NewRotated.png");
+       break;
+
     default:
         break;
     }
