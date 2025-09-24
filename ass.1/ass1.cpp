@@ -46,10 +46,21 @@ void BlackAndWhite(Image &image)
         }
     }
 }
+void invert (Image &image) {
+    for (int i=0 ; i< image.width; i++){
+        for(int j=0; j< image.height; j++){
+            for (int k=0; k<3 ; k++) {
+                image(i,j,k)= 255- image(i,j,k);
+
+            }
+
+        }
+    }
+}
 int GetChoice()
 {
     int choice;
-    vector<string> choices = {"1-GrayScale filter", "2-BlackAndWhite filter", "3-", "4-"};
+    vector<string> choices = {"1-GrayScale filter", "2-BlackAndWhite filter", "3-Invert filter", "4-","5-"};
     cout << "Choose" << endl;
     for (int i = 0; i < choices.size(); i++)
     {
@@ -75,6 +86,10 @@ int main()
         BlackAndWhite(usedImage);
         usedImage.saveImage("NewImage.png");
         break;
+    case 3:
+       invert(usedImage);
+       usedImage.saveImage("NewInverted.png");
+       break;    
     default:
         break;
     }
