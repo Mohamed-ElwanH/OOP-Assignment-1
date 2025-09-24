@@ -19,6 +19,7 @@ void GrayScale(Image &image)
             }
         }
     }
+    image.saveImage("GrayScale.png");
 }
 void BlackAndWhite(Image &image)
 {
@@ -45,11 +46,48 @@ void BlackAndWhite(Image &image)
             }
         }
     }
+    image.saveImage("BlackAndWhite.png");
+}
+void FlipImageHorizontally(Image &image)
+{
+    int x = 0;
+    Image emptyImage(image.width, image.height); // creating an empty image
+    for (int i = image.width - 1; i >= 0; i--)
+    {
+        for (int j = 0; j < image.height; j++)
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                emptyImage(x, j, k) = image(i, j, k);
+            }
+        }
+        x++;
+    }
+    image = emptyImage;
+    image.saveImage("FlipH.png");
+}
+void FlipImageVertically(Image &image)
+{
+    Image emptyImage(image.width, image.height); // creating an empty image
+    for (int j = 0; j < image.height; j++)
+    {
+        int x = image.width;
+        for (int i = 0; i < image.width; i++)
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                emptyImage(x, j, k) = image(i, j, k);
+            }
+            x--;
+        }
+    }
+    image = emptyImage;
+    image.saveImage("FlipV.png");
 }
 int GetChoice()
 {
     int choice;
-    vector<string> choices = {"1-GrayScale filter", "2-BlackAndWhite filter", "3-", "4-"};
+    vector<string> choices = {"1-GrayScale filter", "2-BlackAndWhite filter", "3-Flip Image Horizontally", "4-Flip Image Vertically"};
     cout << "Choose" << endl;
     for (int i = 0; i < choices.size(); i++)
     {
@@ -69,11 +107,15 @@ int main()
     {
     case 1:
         GrayScale(usedImage);
-        usedImage.saveImage("NewImage.png");
         break;
     case 2:
         BlackAndWhite(usedImage);
-        usedImage.saveImage("NewImage.png");
+        break;
+    case 3:
+        FlipImageHorizontally(usedImage);
+        break;
+    case 4:
+        FlipImageVertically(usedImage);
         break;
     default:
         break;
