@@ -14,11 +14,15 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
               "$type": "Document",
@@ -28,10 +32,8 @@
               "RelativeDocumentMoniker": "ass.1\\ass.1.cpp",
               "ToolTip": "C:\\Users\\LOQ\\Documents\\GitHub\\OOP-Assignment-1\\ass.1\\ass.1.cpp",
               "RelativeToolTip": "ass.1\\ass.1.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-09-22T22:44:05.997Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-22T22:44:05.997Z"
             }
           ]
         }
