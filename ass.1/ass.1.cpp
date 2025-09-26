@@ -68,18 +68,18 @@ void FlipImageHorizontally(Image &image)
 }
 void FlipImageVertically(Image &image)
 {
+    int y = image.height-1;
     Image emptyImage(image.width, image.height); // creating an empty image
     for (int j = 0; j < image.height; j++)
     {
-        int x = image.width;
         for (int i = 0; i < image.width; i++)
         {
             for (int k = 0; k < 3; k++)
             {
-                emptyImage(x, j, k) = image(i, j, k);
+                emptyImage(i, y, k) = image(i, j, k);
             }
-            x--;
         }
+        y--;
     }
     image = emptyImage;
     image.saveImage("FlipV.png");
