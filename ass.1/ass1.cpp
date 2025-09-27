@@ -132,7 +132,7 @@ using namespace std;
     int GetChoice()
     {
         int choice;
-        vector<string> choices = { "1-GrayScale filter", "2-BlackAndWhite filter", "3-Invert filter", "4-rotate", "5-" };
+        vector<string> choices = { "1-GrayScale filter", "2-BlackAndWhite filter", "3-Invert filter", "4-rotate", "5-merge" };
         cout << "Choose" << endl;
         for (int i = 0; i < choices.size(); i++)
         {
@@ -166,10 +166,33 @@ using namespace std;
                 rotate(usedImage);
                 usedImage.saveImage("NewRotated.png");
                 break;
+            case 5:
+                merge(usedImage);
+                usedImage.saveImage("Newmerged.png");
+                break;
 
             default:
                 break;
         }
     }
+    void merge(Image& image)
+    {
+        Image mergeImage;
+        string mergeuserinput;
+        cout << "Input the image you want to merge." << endl;
+        cin >> mergeImage;
+       mergeImage.loadNewImage(mergeuserinput);
+        for (int i = 0; i < image.width; i++)
+        {
+            for (int j = 0; j < image.height; j++)
+            {
+                for (int k = 0; k < 3; k++)
+                {
+                    image(i, j, k) = (image(i, j, k) + mergeImage(i, j, k)) / 2;
 
+                }
+
+            }
+        }
+    }
 //qq
