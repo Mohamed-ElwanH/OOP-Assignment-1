@@ -280,8 +280,7 @@ int main()
                 case 2:
                     FlipImageVertically(usedImage);
                     break;
-                default :
-                    break;
+                
             }
             break;
         case 5:
@@ -306,6 +305,7 @@ int main()
             cout<<"Type the name that you would like to save the image with"<<endl;
             cin>>imageName;
             usedImage.saveImage(imageName);
+            break;
         case 10:
             menuDisplayed = false;
             break;
