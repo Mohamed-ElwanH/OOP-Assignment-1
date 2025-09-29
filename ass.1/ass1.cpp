@@ -19,7 +19,7 @@ void GrayScale(Image &image)
             }
         }
     }
-    image.saveImage("GrayScale.png");
+    // image.saveImage("GrayScale.png");
 }
 void BlackAndWhite(Image &image)
 {
@@ -46,68 +46,74 @@ void BlackAndWhite(Image &image)
             }
         }
     }
-    image.saveImage("BlackAndWhite.png");
+    // image.saveImage("BlackAndWhite.png");
 }
-void invert (Image &image) {
-    for (int i=0 ; i< image.width; i++){
-        for(int j=0; j< image.height; j++){
-            for (int k=0; k<3 ; k++) {
-                image(i,j,k)= 255- image(i,j,k);
-
+void invert(Image &image)
+{
+    for (int i = 0; i < image.width; i++)
+    {
+        for (int j = 0; j < image.height; j++)
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                image(i, j, k) = 255 - image(i, j, k);
             }
         }
     }
 }
-void rotate (Image &image){
-    
+void rotate(Image &image)
+{
+
     int deg;
-    cout<<"choose a rotation degree: \n 1-90 \n 2-180 \n 3-270 \n";
-    cin>>deg;
-    if (deg==1){
-        Image rotated(image.height,image.width);
-        for(int i=0;i<image.height;i++){
-            for(int j=0;j<image.width;j++){
-                for(int k=0;k<3;k++){
-                    rotated(i,j,k)= image(j,image.height-1-i,k); //new row = old column
+    cout << "choose a rotation degree: \n 1-90 \n 2-180 \n 3-270 \n";
+    cin >> deg;
+    if (deg == 1)
+    {
+        Image rotated(image.height, image.width);
+        for (int i = 0; i < image.height; i++)
+        {
+            for (int j = 0; j < image.width; j++)
+            {
+                for (int k = 0; k < 3; k++)
+                {
+                    rotated(i, j, k) = image(j, image.height - 1 - i, k); // new row = old column
                 }
-
             }
-        }
-        image=rotated;
-
-    }
-    else if(deg ==2 ){
-        Image rotated(image.width,image.height);
-        for (int i=0 ; i< image.width; i++){
-            for(int j=0; j< image.height; j++){
-                for(int k=0;k<3;k++){
-                    rotated(i,j,k) = image(image.width-1-i,image.height-1-j,k); //rows flipped vertically col flipped horizontally
-                
-            }
-            
-        }
-        
-        
         }
         image = rotated;
     }
-    else if(deg==3){
-         Image rotated(image.height,image.width);
-        for(int i=0;i<image.height;i++){
-            for(int j=0;j<image.width;j++){
-                for(int k=0;k<3;k++){
-                    rotated(i,j,k)= image(image.width-1-j,i,k); //new column = old row
+    else if (deg == 2)
+    {
+        Image rotated(image.width, image.height);
+        for (int i = 0; i < image.width; i++)
+        {
+            for (int j = 0; j < image.height; j++)
+            {
+                for (int k = 0; k < 3; k++)
+                {
+                    rotated(i, j, k) = image(image.width - 1 - i, image.height - 1 - j, k); // rows flipped vertically col flipped horizontally
                 }
-
+            }
+        }
+        image = rotated;
+    }
+    else if (deg == 3)
+    {
+        Image rotated(image.height, image.width);
+        for (int i = 0; i < image.height; i++)
+        {
+            for (int j = 0; j < image.width; j++)
+            {
+                for (int k = 0; k < 3; k++)
+                {
+                    rotated(i, j, k) = image(image.width - 1 - j, i, k); // new column = old row
+                }
             }
         }
 
-        image=rotated;
+        image = rotated;
     }
-     
-    
 }
-
 void FlipImageHorizontally(Image &image)
 {
     int x = 0;
@@ -124,7 +130,7 @@ void FlipImageHorizontally(Image &image)
         x++;
     }
     image = emptyImage;
-    image.saveImage("FlipH.png");
+    // image.saveImage("FlipH.png");
 }
 void FlipImageVertically(Image &image)
 {
@@ -142,14 +148,14 @@ void FlipImageVertically(Image &image)
         y--;
     }
     image = emptyImage;
-    image.saveImage("FlipV.png");
+    // image.saveImage("FlipV.png");
 }
 void CropImage(Image &image, int x, int y, int width, int hight)
 {
     int emptyX = 0;
     Image emptyImage(width, hight);
     for (int i = x; i < x + width; i++)
-    { 
+    {
         int emptyY = 0;
         for (int j = y; j < y + hight; j++)
         {
@@ -161,25 +167,24 @@ void CropImage(Image &image, int x, int y, int width, int hight)
         }
         emptyX++;
     }
-    emptyImage.saveImage("crop.png");
+    // emptyImage.saveImage("crop.png");
 }
-void AdjustWarmth(Image image, int red, int green, int blue) //NOT READY, STILL  WORKING ON
+void AdjustWarmth(Image image, int red, int green, int blue) // NOT READY, STILL  WORKING ON
 {
-    for(int i = 0; i < image.width; i++)
+    for (int i = 0; i < image.width; i++)
     {
-        for(int j = 0; j < image.height; j++)
+        for (int j = 0; j < image.height; j++)
         {
-                //for(int k = 3;k < 3;k++) //f(x)=αx+β
-                {
-                    image(i, j, 0) -= red;
-                    image(i, j, 1) -= green;
-                    image(i, j, 2) -= blue;
-                } 
+            // for(int k = 3;k < 3;k++) //f(x)=αx+β
+            {
+                image(i, j, 0) -= red;
+                image(i, j, 1) -= green;
+                image(i, j, 2) -= blue;
+            }
         }
     }
-    image.saveImage("warmth.png");
+    // image.saveImage("warmth.png");
 }
-
 
 /*The multiplication factor f = (source bitmap width) / (destination bitmap width).
 In the picture above f = 8/3 = 2.6667
@@ -197,8 +202,6 @@ sy2 = sy1 + f.
 5. pack the summed red, green and blue colors in a dword (32 bit integer)
 6. store this dword in destination bitmap [x,y]
 */
-
-
 
 // void brightness(Image image)
 // {
@@ -223,7 +226,7 @@ sy2 = sy1 + f.
 //                 image(i, j, 1) = image(i, j, 1) + (image(i, j, 1) * (alphaScale-1));
 //                 image(i, j, 2) = image(i, j, 2) + (image(i, j, 2) * (alphaScale-1));
 //             }
-//             } 
+//             }
 //         }
 //         else
 //         {
@@ -232,11 +235,32 @@ sy2 = sy1 + f.
 //     }
 //     image.saveImage("brightness.png");
 // }
-int GetChoice()                                                                 //make a save image|| 
-{                                                                               //                 ||
-    int choice;                                                                 //                \  /
-                                                                                //                 \/
-    vector<string> choices = {"1- Load a new image", "2- GrayScale filter", "3- BlackAndWhite filter", "4- Flip image","5-" , "6- Crop image", "7- Invert image", "8- Rotate image", "9- Save image","10- Exit"};
+short PUPLICgetExtensionType(const char *extension)
+{
+    if (strcmp(extension, ".png") == 0)
+    {
+        return PNG_TYPE;
+    }
+    if (strcmp(extension, ".bmp") == 0)
+    {
+        return BMP_TYPE;
+    }
+    if (strcmp(extension, ".tga") == 0)
+    {
+        return TGA_TYPE;
+    }
+    if (strcmp(extension, ".jpg") == 0 || strcmp(extension, ".jpeg") == 0)
+    {
+        return JPG_TYPE;
+    }
+
+    std::cerr << "Unsupported image format: " << extension << std::endl;
+    return UNSUPPORTED_TYPE;
+}
+int GetChoice()
+{
+    int choice;
+    vector<string> choices = {"1- Load a new image", "2- GrayScale filter", "3- BlackAndWhite filter", "4- Flip image", "5-", "6- Crop image", "7- Invert image", "8- Rotate image", "9- Save image", "10- Exit"};
     cout << "Choose" << endl;
     for (int i = 0; i < choices.size(); i++)
     {
@@ -253,12 +277,15 @@ int main()
     cout << "Input image" << endl;
     cin >> userInput;
     usedImage.loadNewImage(userInput);
+    string imageName;
+    bool wrongName = false;
+
     while (menuDisplayed)
     {
         switch (GetChoice())
         {
         case 1:
-            cout<<"Input new image"<<endl;
+            cout << "Input new image" << endl;
             cin >> userInput;
             usedImage.loadNewImage(userInput);
             break;
@@ -270,27 +297,28 @@ int main()
             break;
         case 4:
             int choice;
-            cout<<"1- Flip image horizontally"<<"2- Flip image vertically"<<"3- cancel"<<endl;
-            cin>> choice;
-            switch(choice)
+            cout << "1- Flip image horizontally" << "2- Flip image vertically" << "3- cancel" << endl;
+            cin >> choice;
+            switch (choice)
             {
-                case 1:
-                    FlipImageHorizontally(usedImage);
-                    break;
-                case 2:
-                    FlipImageVertically(usedImage);
-                    break;
-                
+            case 1:
+                FlipImageHorizontally(usedImage);
+                break;
+            case 2:
+                FlipImageVertically(usedImage);
+                break;
+            default:
+                break;
             }
             break;
         case 5:
-            
+
             break;
         case 6:
             int x, y, width, hight;
             cout << "Provide the starting point of x axis and y axis" << endl;
             cin >> x >> y;
-            cout << "Provide the width and hight of the area you would like to crop"<<endl;
+            cout << "Provide the width and hight of the area you would like to crop" << endl;
             cin >> width >> hight;
             CropImage(usedImage, x, y, width, hight);
             break;
@@ -301,10 +329,20 @@ int main()
             rotate(usedImage);
             break;
         case 9:
-            string imageName;
-            cout<<"Type the name that you would like to save the image with"<<endl;
-            cin>>imageName;
-            usedImage.saveImage(imageName);
+            cout << "Type the name that you would like to save the image with" << endl;
+            while (!wrongName)
+            {
+                wrongName = true;
+                cin >> imageName;
+                const char *extension = strrchr(imageName.c_str(), '.');
+                short extensionType = PUPLICgetExtensionType(extension);
+                if (extensionType == UNSUPPORTED_TYPE)
+                {
+                    std::cerr << "a7aaaaaaaaaaaaaaaa" << '\n';
+                    throw std::invalid_argument("File Extension is not supported, Only .JPG, JPEG, .BMP, .PNG, .TGA are supported");
+                    wrongName = false;
+                }
+            }
             break;
         case 10:
             menuDisplayed = false;
