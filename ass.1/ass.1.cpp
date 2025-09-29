@@ -84,7 +84,7 @@ void FlipImageVertically(Image &image)
     image = emptyImage;
     image.saveImage("FlipV.png");
 }
-void CropImage(Image image, int x, int y, int width, int hight)
+void CropImage(Image &image, int x, int y, int width, int hight)
 {
     int emptyX = 0;
     Image emptyImage(width, hight);
@@ -103,6 +103,24 @@ void CropImage(Image image, int x, int y, int width, int hight)
     }
     emptyImage.saveImage("crop.png");
 }
+void AdjustWarmth(Image image, int red, int green, int blue)
+{
+    for(int i = 0; i < image.width; i++)
+    {
+        for(int j = 0; j < image.height; j++)
+        {
+                //for(int k = 3;k < 3;k++) //f(x)=αx+β
+                {
+                    image(i, j, 0) -= red;
+                    image(i, j, 1) -= green;
+                    image(i, j, 2) -= blue;
+                } 
+        }
+    }
+    image.saveImage("warmth.png");
+}
+
+
 /*The multiplication factor f = (source bitmap width) / (destination bitmap width).
 In the picture above f = 8/3 = 2.6667
 f > 1 means reduction, f < 1 means magnification
@@ -119,38 +137,41 @@ sy2 = sy1 + f.
 5. pack the summed red, green and blue colors in a dword (32 bit integer)
 6. store this dword in destination bitmap [x,y]
 */
-void brightness(Image image)
-{
-    bool inUse = true;
-    while (inUse)
-    {
-        float alphaScale;
-        int scale;
-        int response;
-        cout<<"1-Input increament scale\n"<<"2-Exit"<<endl;
-        cin>>response;
-        if(response == 1)
-        {
-            cin>>alphaScale;
-            //cin>>scale;
-            for(int i = 0; i < image.width; i++)
-            {
-            for(int j = 0; j < image.height; j++)
-            {
-                float Lumi = 0.2126*image(i,j,0) + 0.7152*image(i,j,1) + 0.0722*image(i,j,2); //Get luminance
-                image(i, j, 0) = image(i, j, 0) + (image(i, j, 0) * (alphaScale-1));
-                image(i, j, 1) = image(i, j, 1) + (image(i, j, 1) * (alphaScale-1));
-                image(i, j, 2) = image(i, j, 2) + (image(i, j, 2) * (alphaScale-1));
-            }
-            } 
-        }
-        else
-        {
-            inUse = false;
-        }
-    }
-    image.saveImage("brightness.png");
-}
+
+
+
+// void brightness(Image image)
+// {
+//     bool inUse = true;
+//     while (inUse)
+//     {
+//         float alphaScale;
+//         int scale;
+//         int response;
+//         cout<<"1-Input increament scale\n"<<"2-Exit"<<endl;
+//         cin>>response;
+//         if(response == 1)
+//         {
+//             cin>>alphaScale;
+//             //cin>>scale;
+//             for(int i = 0; i < image.width; i++)
+//             {
+//             for(int j = 0; j < image.height; j++)
+//             {
+//                 float Lumi = 0.2126*image(i,j,0) + 0.7152*image(i,j,1) + 0.0722*image(i,j,2); //Get luminance
+//                 image(i, j, 0) = image(i, j, 0) + (image(i, j, 0) * (alphaScale-1));
+//                 image(i, j, 1) = image(i, j, 1) + (image(i, j, 1) * (alphaScale-1));
+//                 image(i, j, 2) = image(i, j, 2) + (image(i, j, 2) * (alphaScale-1));
+//             }
+//             } 
+//         }
+//         else
+//         {
+//             inUse = false;
+//         }
+//     }
+//     image.saveImage("brightness.png");
+// }
 int GetChoice()                                                                 //make a save image|| 
 {                                                                               //                 ||
     int choice;                                                                 //                \  /
@@ -202,7 +223,12 @@ int main()
             CropImage(usedImage, x, y, width, hight);
             break;
         case 7:
-            brightness(usedImage);
+            float adjustment;
+            //cout<<"input warmth";
+            //cin>> adjustment;
+            int red, green, blue;
+            cin>>red>>green>>blue;
+            AdjustWarmth(usedImage, red, green, blue);
             break;
         case 8:
             menuDisplayed = false;
