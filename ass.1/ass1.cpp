@@ -1,33 +1,39 @@
+// Created by Mahmoud Ehab 20240549,Mohamed Ahmed Hamza 20242265, Yomna Abbas 20242399
+// Section X (Can't register yet)
+// Mahmoud Ehab did GreyScale,Adjust Brightness and participated in Main Menu and Load/Save Image
+// Mohamed Ahmed Hamza did BlackAndWhite, Crop Image, Flip Image Horizontally and Vertically and  Main Menu and Load/Save Image
+// Yomna Abbas did Invert Image, Rotate Image
+// Repo Link: https://github.com/Mohamed-ElwanH/OOP-Assignment-1
+// The File applies different filters on images based on the user's choice.
 #include "image_class.h"
 #include <vector>
 #include <iostream>
 #include <string>
 using namespace std;
-void GrayScale(Image &image)
+void GrayScale(Image &image) // Converts the image to greyscale
 {
     for (int i = 0; i < image.width; i++)
     {
-        for (int j = 0; j < image.height; j++) // get avg of every 3 leds and equate the pixel to it
+        for (int j = 0; j < image.height; j++)
         {
-            int avg = 0;
+            int avg = 0; // Gets the sum of the RGB values of each pixel
             for (int k = 0; k < 3; k++)
             {
                 avg += image(i, j, k);
             }
-            avg /= 3;
+            avg /= 3; // Gets the average then assigns it to the three channels
             for (int k = 0; k < 3; k++)
             {
                 image(i, j, k) = avg;
             }
         }
     }
-    // image.saveImage("GrayScale.png");
 }
-void BlackAndWhite(Image &image)
+void BlackAndWhite(Image &image) // Converts the image to black and white
 {
     for (int i = 0; i < image.width; i++)
     {
-        for (int j = 0; j < image.height; j++) // get avg of every 3 leds and equate the pixel to it
+        for (int j = 0; j < image.height; j++)
         {
             int avg = 0;
             for (int k = 0; k < 3; k++)
@@ -48,9 +54,8 @@ void BlackAndWhite(Image &image)
             }
         }
     }
-    // image.saveImage("BlackAndWhite.png");
 }
-void invert(Image &image)
+void invert(Image &image) // Inverts the colors of the image
 {
     for (int i = 0; i < image.width; i++)
     {
@@ -63,12 +68,12 @@ void invert(Image &image)
         }
     }
 }
-void rotate(Image &image)
+void rotate(Image &image) // Rotates the image by 90, 180 or 270 degrees depending on the user's choice
 {
     int deg;
     cout << "choose a rotation degree: \n 1-90 \n 2-180 \n 3-270 \n";
     cin >> deg;
-    if (deg == 1)
+    if (deg == 1) // Rotate 90 degrees
     {
         Image rotated
 
@@ -85,7 +90,7 @@ void rotate(Image &image)
         }
         image = rotated;
     }
-    else if (deg == 2)
+    else if (deg == 2) // Rotate 180 degrees
     {
         Image rotated
 
@@ -102,7 +107,7 @@ void rotate(Image &image)
         }
         image = rotated;
     }
-    else if (deg == 3)
+    else if (deg == 3) // Rotate 270 degrees
     {
         Image rotated
 
@@ -121,7 +126,7 @@ void rotate(Image &image)
         image = rotated;
     }
 }
-void FlipImageHorizontally(Image &image)
+void FlipImageHorizontally(Image &image) // Flips the image horizontally
 {
     int x = 0;
     Image emptyImage
@@ -139,14 +144,13 @@ void FlipImageHorizontally(Image &image)
         x++;
     }
     image = emptyImage;
-    // image.saveImage("FlipH.png");
 }
-void FlipImageVertically(Image &image)
+void FlipImageVertically(Image &image) // Flips the image vertically
 {
     int y = image.height - 1;
     Image emptyImage
 
-        (image.width, image.height); // creating an empty image
+        (image.width, image.height); // Creates an empty image
     for (int j = 0; j < image.height; j++)
     {
         for (int i = 0; i < image.width; i++)
@@ -159,9 +163,8 @@ void FlipImageVertically(Image &image)
         y--;
     }
     image = emptyImage;
-    // image.saveImage("FlipV.png");
 }
-void CropImage(Image &image, int x, int y, int width, int height)
+void CropImage(Image &image, int x, int y, int width, int height) // Crops the image based on the user's input
 {
     int emptyX = 0;
     Image emptyImage
@@ -180,26 +183,10 @@ void CropImage(Image &image, int x, int y, int width, int height)
         }
         emptyX++;
     }
-    // emptyImage.saveImage("crop.png");
-}
-void AdjustWarmth(Image image, int red, int green, int blue) // NOT READY, STILL  WORKING ON
-{
-    for (int i = 0; i < image.width; i++)
-    {
-        for (int j = 0; j < image.height; j++)
-        {
-            // for(int k = 3;k < 3;k++) //f(x)=αx+β
-            {
-                image(i, j, 0) -= red;
-                image(i, j, 1) -= green;
-                image(i, j, 2) -= blue;
-            }
-        }
-    }
-    // image.saveImage("warmth.png");
+    image = emptyImage;
 }
 
-void AdjustBrightness(Image &image, float factor)
+void AdjustBrightness(Image &image, float factor) // increases or decreases the brightness based on the user's input (1.5 for 50% increase and 0.5 for 50% decrease)
 {
 
     for (int i = 0; i < image.width; i++)
@@ -215,7 +202,7 @@ void AdjustBrightness(Image &image, float factor)
         }
     }
 }
-int GetChoice()
+int GetChoice() // Displays the menu and gets the user's choice
 {
     int choice;
     vector<string> choices = {"1- Load a new image", "2- GrayScale filter", "3- BlackAndWhite filter", "4- Flip image", "5- Brightness Adjustment", "6- Crop image", "7- Invert image", "8- Rotate image", "9- Save image", "10- Exit"};
@@ -227,7 +214,7 @@ int GetChoice()
     cin >> choice;
     return choice;
 }
-int main()
+int main() // main program
 {
     bool menuDisplayed = true;
     bool loadImage = false;
@@ -235,7 +222,7 @@ int main()
     string userInput;
     cout << "Input image" << endl;
     cin >> userInput;
-    while (!loadImage)
+    while (!loadImage) // Loops until the image entered is valid
     {
         try
         {
@@ -257,11 +244,11 @@ int main()
     string imageName;
     bool wrongName = false;
 
-    while (menuDisplayed)
+    while (menuDisplayed) // Menu loop until user chooses to exit
     {
         switch (GetChoice())
         {
-        case 1:
+        case 1: // Load new image
             cout << "Input image" << endl;
             cin >> userInput;
             while (!loadImage)
@@ -290,7 +277,7 @@ int main()
         case 3:
             BlackAndWhite(usedImage);
             break;
-        case 4:
+        case 4: // Flip options
             int choice;
             cout << "1- Flip image horizontally" << "2- Flip image vertically" << "3- cancel" << endl;
             cin >> choice;
@@ -328,6 +315,7 @@ int main()
             rotate(usedImage);
             break;
         case 9:
+            wrongName = false;
             cout << "Type the name that you would like to save the image with" << endl;
             while (!wrongName)
             {
@@ -356,76 +344,3 @@ int main()
     }
     return 0;
 }
-
-/*The multiplication factor f = (source bitmap width) / (destination bitmap width).
-In the picture above f = 8/3 = 2.6667
-f > 1 means reduction, f < 1 means magnification
-
-sx1 is the left postion of the red square, sx1 = f * x.
-Similar, sy1 = f * y is the top position.
-sx2 = sx1 + f.
-sy2 = sy1 + f.
-
-1. read source pixel[i,j]
-2. extract the red, green and blue values
-3. multiply these values by dx*dy and adding them up per color
-4. repeat 1..3 for all overlapping pixels
-5. pack the summed red, green and blue colors in a dword (32 bit integer)
-6. store this dword in destination bitmap [x,y]
-*/
-
-// void brightness(Image image)
-// {
-//     bool inUse = true;
-//     while (inUse)
-//     {
-//         float alphaScale;
-//         int scale;
-//         int response;
-//         cout<<"1-Input increament scale\n"<<"2-Exit"<<endl;
-//         cin>>response;
-//         if(response == 1)
-//         {
-//             cin>>alphaScale;
-//             //cin>>scale;
-//             for(int i = 0; i < image.width; i++)
-//             {
-//             for(int j = 0; j < image.height; j++)
-//             {
-//                 float Lumi = 0.2126*image(i,j,0) + 0.7152*image(i,j,1) + 0.0722*image(i,j,2); //Get luminance
-//                 image(i, j, 0) = image(i, j, 0) + (image(i, j, 0) * (alphaScale-1));
-//                 image(i, j, 1) = image(i, j, 1) + (image(i, j, 1) * (alphaScale-1));
-//                 image(i, j, 2) = image(i, j, 2) + (image(i, j, 2) * (alphaScale-1));
-//             }
-//             }
-//         }
-//         else
-//         {
-//             inUse = false;
-//         }
-//     }
-//     image.saveImage("brightness.png");
-// }
-
-// short PUPLICgetExtensionType(const char* extension)
-// {
-//     if (strcmp(extension, ".png") == 0)
-//     {
-//         return PNG_TYPE;
-//     }
-//     if (strcmp(extension, ".bmp") == 0)
-//     {
-//         return BMP_TYPE;
-//     }
-//     if (strcmp(extension, ".tga") == 0)
-//     {
-//         return TGA_TYPE;
-//     }
-//     if (strcmp(extension, ".jpg") == 0 || strcmp(extension, ".jpeg") == 0)
-//     {
-//         return JPG_TYPE;
-//     }
-
-//     std::cerr << "Unsupported image format: " << extension << std::endl;
-//     return UNSUPPORTED_TYPE;
-//}
