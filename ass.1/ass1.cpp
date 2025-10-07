@@ -251,10 +251,134 @@ void blur(Image &image ){
     image=blurred;
     
 }
+void getFramecolor(unsigned char frameColor[3]){
+    cout<<"enter rgb values from 0-255 \n";
+
+    for(int i = 0; i < 3; i++){
+        int inpt;
+        cin>>inpt;
+        if(inpt < 0 || inpt > 255) {
+            cout << "Invalid input, try again: ";
+            i--; // Retry this input
+            continue;
+        }
+        frameColor[i] = static_cast<unsigned char>(inpt);
+    }
+}
+void frame(Image &image){
+    int choice;
+    cout<<"1-border \n2-simple lines frame \n";
+    cin>>choice;
+    
+    if(choice==1){
+
+        int border = 0.1 * min(image.height , image.width);
+    
+        int frameWidth = image.width + 2*border;
+        int frameHeight = image.height + 2*border;
+        Image frame (frameWidth,frameHeight) ;
+    
+        unsigned char frameColor[3] ={0,0,0}; //rgb value control
+        
+        getFramecolor(frameColor);
+        for (int i = 0; i < frame.width; i++) //fill the border with the chosen color
+        {
+            for (int j = 0; j < frame.height; j++)
+            {
+                for (int k = 0; k < 3; k++){
+                    frame(i,j,k) = frameColor[k];
+
+                }
+            }
+        } 
+
+        int lineThickness = border/2;
+
+        
+
+        for (int i = 0; i < image.width; i++) //place the image in the middle of the frame
+        {
+            for (int j = 0; j < image.height; j++)
+            {
+                for(int k = 0; k < 3 ;k++){
+                    
+                    frame(i+border, j + border ,k) = image(i,j,k);
+                                                                                        
+                }
+                
+            }
+        }
+        
+        
+
+        
+        image=frame;
+
+
+            
+        }
+    
+    else if (choice==2){
+        unsigned char frameColor[3] ={0,0,0}; //rgb value control
+        int offset = 0.05 * min(image.height , image.width);
+        int lineThickness = offset/3;
+        int gap = lineThickness/2; //gap between lines
+        
+        getFramecolor(frameColor);
+        
+
+         for (int i = 0; i < image.width; i++) //place the image in the middle of the frame
+        {
+            for (int j = 0; j < image.height; j++)
+            {
+                
+                    bool isFramePixel = false;
+                    
+
+                    if (
+                        // Left vertical lines
+                        (i > offset && i < offset + lineThickness) ||
+                        (i > offset + lineThickness + gap && i < offset + gap + 2*lineThickness) ||
+                        // Right vertical lines
+                        (i > image.width - offset - lineThickness && i < image.width - offset) ||
+                        (i > image.width - offset - 2*lineThickness - gap && i < image.width - offset - lineThickness - gap) ||
+                        // Top horizontal lines
+                        (j > offset && j < offset + lineThickness) ||
+                        (j > offset + lineThickness + gap && j < offset + gap + 2*lineThickness) ||
+                        // Bottom horizontal lines
+                        (j > image.height - offset - lineThickness && j < image.height - offset) ||
+                        (j > image.height - offset - 2*lineThickness - gap && j < image.height - offset - lineThickness - gap)
+                        ) {
+                            isFramePixel = true;
+                                }
+                    if (isFramePixel){
+                        for(int k = 0; k < 3 ;k++){
+                            image(i,j,k) = frameColor[k];
+                        }
+
+                    }
+
+
+
+
+                    
+                    
+                                                                                        
+                }
+                
+            }
+        
+
+
+    }
+} 
+
+
+
 int GetChoice() // Displays the menu and gets the user's choice
 {
     int choice;
-    vector<string> choices = {"1- Load a new image", "2- GrayScale filter", "3- BlackAndWhite filter", "4- Flip image", "5- Brightness Adjustment", "6- Crop image", "7- Invert image", "8- Rotate image", "9- Save image", "10- Exit","11-blur"};
+    vector<string> choices = {"1- Load a new image", "2- GrayScale filter", "3- BlackAndWhite filter", "4- Flip image", "5- Brightness Adjustment", "6- Crop image", "7- Invert image", "8- Rotate image", "9- Save image", "10- Exit","11-blur","12-frame"};
     cout << "Choose" << endl;
     for (int i = 0; i < choices.size(); i++)
     {
@@ -390,7 +514,9 @@ int main() // main program
         case 11:
             blur(usedImage);
             break;
-
+        case 12:
+            frame(usedImage);
+            break;
         default:
             break;
         }
