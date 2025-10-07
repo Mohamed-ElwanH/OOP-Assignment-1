@@ -271,8 +271,12 @@ void frame(Image &image){
     cin>>choice;
     
     if(choice==1){
+        float percentage;
+        cout<<"enter the thickness of the border 1-40 \n";
+        cin>>percentage;
+        percentage /= 100;
 
-        int border = 0.1 * min(image.height , image.width);
+        int border = percentage * min(image.height , image.width);
     
         int frameWidth = image.width + 2*border;
         int frameHeight = image.height + 2*border;
