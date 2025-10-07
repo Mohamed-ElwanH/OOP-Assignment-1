@@ -377,12 +377,25 @@ void frame(Image &image){
     }
 } 
 
-
+void RetroTV(Image &image) {
+     for (int i = 0; i < image.width; i++)
+    {
+        for (int j = 0; j < image.height; j+=5)
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                
+                image(i, j, k) *= 0.5;
+            }
+        }
+    }
+    
+}
 
 int GetChoice() // Displays the menu and gets the user's choice
 {
     int choice;
-    vector<string> choices = {"1- Load a new image", "2- GrayScale filter", "3- BlackAndWhite filter", "4- Flip image", "5- Brightness Adjustment", "6- Crop image", "7- Invert image", "8- Rotate image", "9- Save image", "10- Exit","11-blur","12-frame"};
+    vector<string> choices = {"1- Load a new image", "2- GrayScale filter", "3- BlackAndWhite filter", "4- Flip image", "5- Brightness Adjustment", "6- Crop image", "7- Invert image", "8- Rotate image", "9- Save image", "10- Exit","11-blur","12-frame","13-Retro TV effect"};
     cout << "Choose" << endl;
     for (int i = 0; i < choices.size(); i++)
     {
@@ -520,6 +533,9 @@ int main() // main program
             break;
         case 12:
             frame(usedImage);
+            break;
+        case 13:
+            RetroTV(usedImage);
             break;
         default:
             break;
