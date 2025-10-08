@@ -202,55 +202,169 @@ void AdjustBrightness(Image &image, float factor) // increases or decreases the 
         }
     }
 }
+
+
+
 void blur(Image &image ){
-    Image blurred (image.width,image.height);
-    int percentage ,avgBlur;
-    cout<<"Enter blur radius \n";
-    cin>>avgBlur;
+    Image blurredh (image.width,image.height) ,blurredv (image.width,image.height);
+    int blurRadius;
+    cout<<"Enter blur radius 0-100 \n";
+    cin>>blurRadius;
+    
+    //horizontal run
+     for( int j = 0; j< image.height; j++ ){
+       
+        for(int k = 0; k < 3; k++ ){ //loops over one color in all rows
+             int sum =0 ,cntr=0; //sum of the pixels in the window and counter for valid pixels
+             for(int i =0 ; i < image.width && i < blurRadius ; i++ ){ //fills the first window
+                 sum += image(i,j,k);
+                 cntr++;
+             }
+             for(int i =0 ; i < image.width ; i++ ){ 
+                 int avg= round(sum/cntr); //assigns the average to the blurred image
+                 if( avg > 255 ) avg = 255;
+                 if( avg < 0 ) avg = 0;
+                  blurredh(i,j,k) = avg;
+                 
+                 if( i - blurRadius >= 0 ) {sum -= image(i- blurRadius,j ,k); cntr--;} //removes the old pixel
+                 if( i + blurRadius + 1 < image.width ) {sum += image(i+ blurRadius + 1,j ,k); cntr++;}; //adds the new pixel
+             }  
+             
+            
+
+        }
+    }
+    //vertical run
+
+    for( int i = 0; i < image.width; i++ ){
+       
+        for(int k = 0; k < 3; k++ ){ //loops over one color in all columns
+             int sum = 0  , cntr=0;
+             for(int j =0 ; j < image.height && j < blurRadius ; j++ ){ //fills the first window
+                 sum += blurredh(i,j,k);
+                 cntr++;
+             }
+             for(int j =0 ; j < image.height ; j++ ){ 
+                int avg= round(sum/cntr); 
+                if( avg > 255 ) avg = 255;
+                 if( avg < 0 ) avg = 0;
+                 blurredv(i,j,k) =avg;
+                 if( j - blurRadius >= 0 ) {sum -= blurredh(i,j - blurRadius,k); cntr--;} //removes the old pixel
+                 if( j + blurRadius + 1 < image.height ) {sum += blurredh(i,j + blurRadius + 1,k); cntr++;}//adds the new pixel
+             }  
+             
+            
+
+        }
+    }
+    
+    image=blurredv;
+    
+    
+} 
+
+//scrapped code for box blur
+
+// void blur(Image &image) {
+//     Image blurredh(image.width, image.height), blurredv(image.width, image.height);
+//     int blurRadius;
+//     cout << "Enter blur radius: ";
+//     cin >> blurRadius;
+
+//     int diameter = 2 * blurRadius + 1;
+
+//     // --- Horizontal pass ---
+//     for (int y = 0; y < image.height; y++) {
+//         for (int c = 0; c < 3; c++) { // R, G, B
+//             int sum = 0;
+
+//             // initialize first window
+//             for (int x = 0; x <= blurRadius && x < image.width; x++)
+//                 sum += image(x, y, c);
+
+//             for (int x = 0; x < image.width; x++) {
+//                 blurredh(x, y, c) = sum / (2 * blurRadius + 1);
+
+//                 // slide window
+//                 if (x - blurRadius >= 0)
+//                     sum -= image(x - blurRadius, y, c);
+//                 if (x + blurRadius + 1 < image.width)
+//                     sum += image(x + blurRadius + 1, y, c);
+//             }
+//         }
+//     }
+
+//     // --- Vertical pass ---
+//     for (int x = 0; x < image.width; x++) {
+//         for (int c = 0; c < 3; c++) { // R, G, B
+//             int sum = 0;
+
+//             // initialize first window
+//             for (int y = 0; y <= blurRadius && y < image.height; y++)
+//                 sum += blurredh(x, y, c);
+
+//             for (int y = 0; y < image.height; y++) {
+//                 blurredv(x, y, c) = sum / (2 * blurRadius + 1);
+
+//                 // slide window
+//                 if (y - blurRadius >= 0)
+//                     sum -= blurredh(x, y - blurRadius, c);
+//                 if (y + blurRadius + 1 < image.height)
+//                     sum += blurredh(x, y + blurRadius + 1, c);
+//             }
+//         }
+//     }
+
+//     image = blurredv;
+// }
     //avgBlur = (percentage * min(image.width,image.height))/ 100; //translates percentage of blur to average pixels 
     //avgBlur=5;
     
     
-     for (int i = 0; i < image.width; i++)
-    {
-        for (int j = 0; j < image.height; j++)
-        {
-            int cntr=0 ,avgr=0,avgb=0,avgg=0;
-            int rgb[3] ={0,0,0}; //store sum of rgb separately
-            for(int m = -avgBlur;m <= avgBlur; m++ ){ //box blur method
-                for(int n = -avgBlur;n <= avgBlur; n++ ){
+    //  for (int i = 0; i < image.width; i++)
+    // {
+    //     for (int j = 0; j < image.height; j++)
+    //     {
+    //         int cntr=0 ,avgr=0,avgb=0,avgg=0;
+    //         int rgb[3] ={0,0,0}; //store sum of rgb separately
+    //         for(int m = -avgBlur;m <= avgBlur; m++ ){ //box blur method
+    //             for(int n = -avgBlur;n <= avgBlur; n++ ){
 
-                    int ni = i + m; //horizontal neighbors 
-                    int nj = j + n; //vertical neighbors
+    //                 int ni = i + m; //horizontal neighbors 
+    //                 int nj = j + n; //vertical neighbors
 
-                    if ( ni>=0 && nj>=0 && nj<image.height && ni<image.width ){ //edge check
-                         for (int k = 0; k < 3; k++)
-                         {
-                            rgb[k] += image(ni, nj, k);
+    //                 if ( ni>=0 && nj>=0 && nj<image.height && ni<image.width ){ //edge check
+    //                      for (int k = 0; k < 3; k++)
+    //                      {
+    //                         rgb[k] += image(ni, nj, k);
                              
-                         }
-                         cntr++; //counts valid pixels
-                    }
+    //                      }
+    //                      cntr++; //counts valid pixels
+    //                 }
                      
                      
             
 
 
-                }
+    //             }
                
                 
-            }
-            for( int k = 0; k < 3; k++){    
-                blurred(i,j,k) = round(rgb[k]/cntr);
-            }
+    //         }
+    //         for( int k = 0; k < 3; k++){    
+    //             blurred(i,j,k) = round(rgb[k]/cntr);
+    //         }
                 
-        }
+    //     }
               
  
-    }
-    image=blurred;
+    // }
+    // image=blurred;
+
     
-}
+
+
+    
+
 void getFramecolor(unsigned char frameColor[3]){
     cout<<"enter rgb values from 0-255 \n";
 
@@ -378,14 +492,19 @@ void frame(Image &image){
 } 
 
 void RetroTV(Image &image) {
+
      for (int i = 0; i < image.width; i++)
     {
-        for (int j = 0; j < image.height; j+=5)
+        for (int j = 0; j < image.height; j++)
         {
             for (int k = 0; k < 3; k++)
             {
+
+                if(j%3==0) image(i, j, k) *= 0.5;
+                else {int value = static_cast<int>(image(i, j, k) * 1.5);
+
+                image(i, j, k) = std::min(255, std::max(0, value));}
                 
-                image(i, j, k) *= 0.5;
             }
         }
     }
