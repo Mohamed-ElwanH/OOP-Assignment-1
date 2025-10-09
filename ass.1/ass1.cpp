@@ -315,7 +315,7 @@ void Resize(Image &image, int newWidth, int newHeight)
             }
         }
     }
-    newImage.saveImage("size.png");
+    image = newImage;
 }
 
 void LoadCheck(string userInput, Image &usedImage)
