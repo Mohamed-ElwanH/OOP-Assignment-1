@@ -620,20 +620,20 @@ int main() // main program
         case 12:
             menuDisplayed = false;
             break;
-        case 11:
+        case 13:
             blur(usedImage);
             break;
-        case 12:
+        case 14:
             frame(usedImage);
             break;
-        case 13:
+        case 15:
             RetroTV(usedImage);
             break;
-        case 14:
+        case 16:
             cin >> newWidth >> newHeight;
             Resize(usedImage, newWidth, newHeight);
             break;
-        case 15:
+        case 17:
             Wano 
         default :
         break;
