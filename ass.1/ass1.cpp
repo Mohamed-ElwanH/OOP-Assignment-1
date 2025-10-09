@@ -29,6 +29,25 @@ using namespace std;
             LoadCheck(userInput, usedImage);
         }
     }
+    void Resize(Image& image, int newWidth, int newHeight)
+    {
+        Image newImage
+
+        (newWidth, newHeight);
+        float wRatio = static_cast <float> (image.width) / newWidth;
+        float hRatio = static_cast <float> (image.height) / newHeight;
+        for (int i = 0; i < newImage.width; i++)
+        {
+            for (int j = 0; j < newImage.height; j++)
+            {
+                for (int k = 0; k < 3; k++)
+                {
+                    newImage(i, j, k) = image(roundf(i * wRatio), roundf(j * hRatio), k);
+                }
+            }
+        }
+        image = newImage;
+    }
     void GrayScale(Image& image) // Converts the image to greyscale 
     {
         for (int i = 0; i < image.width; i++)
@@ -186,9 +205,7 @@ using namespace std;
     void CropImage(Image& image, int x, int y, int width, int height) // Crops the image based on the user's input
     {
         int emptyX = 0;
-        Image emptyImage
-
-        (width, height);
+        Image emptyImage(width, height);
         for (int i = x; i < x + width; i++)
         {
             int emptyY = 0;
@@ -202,7 +219,7 @@ using namespace std;
             }
             emptyX++;
         }
-        
+        image = emptyImage;
     }
     void AdjustBrightness(Image& image, float factor) //increases or decreases the brightness based on the user's input (1.5 for 50% increase and 0.5 for 50% decrease)
     {
@@ -213,8 +230,7 @@ using namespace std;
             {
                 for (int k = 0; k < 3; k++)
                 {
-                    int value = static_cast <
-                    int > (image(i, j, k) * factor);
+                    int value = static_cast <int > (image(i, j, k) * factor);
                
                     image(i, j, k) = min(255, max(0, value));
                 }
@@ -240,7 +256,9 @@ using namespace std;
         {
             CropImage(mergeMe, 0, 0, image.width, image.height);
         }
-        Image mergedImage(image.width, image.height);
+        Image mergedImage
+
+        (image.width, image.height);
         for (int i = 0; i < image.width; i++)
         {
             for (int j = 0; j < image.height; j++)
@@ -258,15 +276,17 @@ using namespace std;
         Image copy(image.width, image.height);
         copy = image;
         GrayScale(image);
-       int Gx[3][3] = { 
-                {-1, 0, 1},
-                {-2, 0, 2},
-                {- 1, 0, 1}
+        int Gx[3][3] =
+        {
+            { -1, 0, 1 },
+            { -2, 0, 2 },
+            { -1, 0, 1 }
         };
-        int Gy[3][3] = { 
-                {1, 2, 1},
-                {0, 0, 0},
-                {-1, -2, -1}
+        int Gy[3][3] =
+        {
+            { 1, 2, 1 },
+            { 0, 0, 0 },
+            { -1,-2,-1}
         };
         for (int i = 1; i < image.width - 1; i++)
         {
@@ -282,32 +302,14 @@ using namespace std;
                         sumy += copy(i + m, j + n, 0) * Gy[m + 1][n + 1];
                     }
                 }
-                int magnitude = min(255, max(0, static_cast<int>(sqrt(sumx * sumx + sumy * sumy))));
+                int magnitude = min(255, max(0, static_cast <int> (sqrt(sumx * sumx + sumy * sumy))));
                 for (int k = 0; k < 3; k++)
                 {
                     image(i, j, k) = 255 - magnitude;
                 }
             }
         }
-        //int threshold;
-        //cin >> threshold;
-         
-        //            if (i == 0 || j == 0 || i == image.width - 1 || j == image.height - 1)
-        //            {
-        //                continue; // Skip border pixels
-        //            }
-        //            if (abs(image(i, j, k) - image(i + 1, j, k)) > threshold || abs(image(i, j, k) - image(i, j + 1, k)) > threshold)
-        //            {
-        //                image(i, j, k) = 0;
-                        
-        //            }
-        //            else
-        //            {
-        //                image(i, j, k) = 255;
-        //            }
-        //        }
-        //    }
-        //}
+      
     }
     void blur(Image& image)
     {
@@ -392,10 +394,12 @@ using namespace std;
         skewdeg = skewdeg * (3.14159265358979323846 / 180.0); // Convert degrees to radians
         
         int newWidth = image.width + abs(image.height * tan(skewdeg));
-        Image skewedImage(newWidth, image.height);
+        Image skewedImage
+
+        (newWidth, image.height);
         //int y = abs(image.height * tan(skewdeg));
         //cout << "increasing by " "" << y << endl;
-        for (int i = 0 ; i < image.width ; i++)
+        for (int i = 0; i < image.width; i++)
         {
             for (int j = 0; j < image.height; j++)
             {
@@ -423,7 +427,18 @@ using namespace std;
         }
         image = skewedImage;
     }
-   
+    void AdjustWarmth(Image& image)
+    {
+        for (int i = 0; i < image.width; i++)
+        {
+            for (int j = 0; j < image.height; j++)
+            {
+                image(i, j, 0) = (min<int>(255, max<int>(0, static_cast<int>(image(i, j, 0) * 1.1 )))); 
+                image(i, j, 1) = (min<int>(255, max<int>(0, static_cast<int>(image(i, j, 1) * 1.2)))); 
+                image(i, j, 2) = (min<int>(255, max<int>(0, static_cast<int>(image(i, j, 2) )))); 
+            }
+        }
+    }
     int GetChoice() // Displays the menu and gets the user's choice
     {
         int choice;
@@ -480,7 +495,7 @@ using namespace std;
         cout << "Input image" << endl;
         cin >> userInput;
         LoadCheck(userInput, usedImage);
-        
+        int newWidth, newHeight;
         string imageName;
         while (menuDisplayed) // Menu loop until user chooses to exit
         {
@@ -550,7 +565,7 @@ using namespace std;
                 case 13:
                     blur(usedImage);
                         
-                        // Optional: Check if usedImage.imageData is valid
+                         
                     if (usedImage.imageData == nullptr)
                     {
                         cout << "Error: Image data is empty after blur!" << endl;
@@ -564,10 +579,16 @@ using namespace std;
                 case 15:
                     skew(usedImage);
                     break;
+                case 16:
+                    cin >> newWidth >> newHeight;
+                    Resize(usedImage, newWidth, newHeight);
+                    break;
+                case 17:
+                    AdjustWarmth(usedImage);
+                    break;
                 default:
                     break;
             }
         }
         return 0;
     }
-    
