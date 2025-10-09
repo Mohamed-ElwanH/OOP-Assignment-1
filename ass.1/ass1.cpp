@@ -756,6 +756,20 @@ void AdjustWarmth
         }
     }
 }
+
+void purple(Image &image)
+{
+    for (int i = 0; i < image.width; i++)
+    {
+        for (int j = 0; j < image.height; j++)
+        {
+            image(i, j, 0) = min(255.0, (image(i, j, 0) *1.5));
+            image(i, j, 1) = max(0.0, (image(i, j, 1) *0.5));
+            image(i, j, 2) = min(255.0, (image(i, j, 2) *1.5));
+        }
+    }
+    
+}
 int GetChoice
 
     () // Displays the menu and gets the user's choice
@@ -779,9 +793,10 @@ int GetChoice
             "14- Natural Sunlight Filter",
             "15- Retro Tv Filter",
             "16- Infrared Filter",
-            "17-Skew Image",
-            "18- Save Image",
-            "19- Exit"};
+            "17- Skew Image",
+            "18- Purple Filter",
+            "19- Save Image",
+            "20- Exit"};
     cout << "Choose" << endl;
     for (int i = 0; i < choices.size(); i++)
     {
@@ -891,12 +906,17 @@ int main
             skew(usedImage);
             break;
         case 18:
+            purple(usedImage);
+            break;
+           
+        case 19:
             cout << "Type the name that you would like to save the image with" << endl;
             cin >> imageName;
             SaveCheck(usedImage, imageName);
             break;
+           
 
-        case 19:
+        case 20:
             menuDisplayed = false;
             break;
         default:
