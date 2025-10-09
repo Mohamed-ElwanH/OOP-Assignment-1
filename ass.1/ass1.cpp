@@ -9,7 +9,28 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <cmath>
 using namespace std;
+// void imgerror()
+//{
+//     while (!loadImage) // Loops until the image entered is valid
+//     {
+//         try
+//     {
+//             usedImage.loadNewImage(userInput);
+//             loadImage = true;
+//             cout << "Image loaded successfully" << endl;
+//             break;
+//         }
+//         catch(
+
+//        const exception& error)
+//    {
+//            cout << error.what() << "\nTry again\n" << endl;
+//            cin >> userInput;
+//        }
+//    }
+//}
 void GrayScale(Image &image) // Converts the image to greyscale
 {
     for (int i = 0; i < image.width; i++)
@@ -183,9 +204,7 @@ void CropImage(Image &image, int x, int y, int width, int height) // Crops the i
         }
         emptyX++;
     }
-    image = emptyImage;
 }
-
 void AdjustBrightness(Image &image, float factor) // increases or decreases the brightness based on the user's input (1.5 for 50% increase and 0.5 for 50% decrease)
 {
 
@@ -197,15 +216,155 @@ void AdjustBrightness(Image &image, float factor) // increases or decreases the 
             {
                 int value = static_cast<int>(image(i, j, k) * factor);
 
-                image(i, j, k) = std::min(255, std::max(0, value));
+                image(i, j, k) = min(255, max(0, value));
             }
         }
+    }
+}
+void merge(Image &image, Image &mergeMe, Image &mergedImage) // Merges two images by averaging their pixel values
+{
+
+    for (int i = 0; i < image.width; i++)
+    {
+        for (int j = 0; j < image.height; j++)
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                mergedImage(i, j, k) = (image(i, j, k) + mergeMe(i, j, k)) / 2;
+            }
+        }
+    }
+}
+void Edging(Image &image)
+{
+    BlackAndWhite(image);
+    int threshold;
+    cin >> threshold;
+    for (int i = 0; i < image.width; i++)
+    {
+        for (int j = 0; j < image.height; j++)
+        {
+            for (int k = 0; k < 3; k++)
+            {
+
+                if (i == 0 || j == 0 || i == image.width - 1 || j == image.height - 1)
+                {
+                    continue; // Skip border pixels
+                }
+                if (abs(image(i, j, k) - image(i + 1, j, k)) > threshold || abs(image(i, j, k) - image(i, j + 1, k)) > threshold)
+                {
+                    image(i, j, k) = 0;
+                }
+                else
+                {
+                    image(i, j, k) = 255;
+                }
+            }
+        }
+    }
+}
+void AdjustWarmth(Image &image, float warmthFactor)
+{
+    for (int i = 0; i < image.width; i++)
+    {
+        for (int j = 0; j < image.height; j++)
+        {
+            int R = image(i, j, 0), G = image(i, j, 1), B = image(i, j, 2);
+            int R2 = R + (R * warmthFactor);
+            int G2 = G + (G * warmthFactor);
+            // int B2 = B - (B * warmthFactor);
+            image(i, j, 0) = min(255, max(0, R2));
+            image(i, j, 1) = min(255, max(0, G2));
+            // image(i, j, 2) = min(255, max(0, B2));
+        }
+    }
+}
+void AdjustContrast(Image &image, float contrastFactor)
+{
+    for (int i = 0; i < image.width; i++)
+    {
+        for (int j = 0; j < image.height; j++)
+        {
+            int R = image(i, j, 0), G = image(i, j, 1), B = image(i, j, 2);
+            int R2 = ((R - 128) * contrastFactor) + 128;
+            int G2 = ((G - 128) * contrastFactor) + 128;
+            int B2 = ((B - 128) * contrastFactor) + 128;
+            image(i, j, 0) = min(255, max(0, R2));
+            image(i, j, 1) = min(255, max(0, G2));
+            image(i, j, 2) = min(255, max(0, B2));
+        }
+    }
+}
+void FixWano(Image &image, float warmthFactor, float contrastFactor)
+{
+    AdjustWarmth(image, warmthFactor);
+    // AdjustContrast(image, contrastFactor);
+}
+void Resize(Image &image, int newWidth, int newHeight)
+{
+    Image newImage(newWidth, newHeight);
+    float wRatio = static_cast<float>(image.width) / newWidth;
+    float hRatio = static_cast<float>(image.height) / newHeight;
+    for (int i = 0; i < newImage.width; i++)
+    {
+        for (int j = 0; j < newImage.height; j++)
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                newImage(i, j, k) = image(roundf(i * wRatio), roundf(j * hRatio), k);
+            }
+        }
+    }
+    newImage.saveImage("size.png");
+}
+
+void LoadCheck(string userInput, Image &usedImage)
+{
+    try
+    {
+        usedImage.loadNewImage(userInput);
+        cout << "Image loaded successfully" << endl;
+        return;
+    }
+    catch (const invalid_argument &error)
+    {
+        cout << error.what() << "\nTry again\n"
+             << endl;
+        cin >> userInput;
+        LoadCheck(userInput, usedImage);
+    }
+}
+void SaveCheck(Image usedImage, string imageName)
+{
+    try
+    {
+        // cin >> imageName;
+        usedImage.saveImage(imageName);
+        cout << "Saved Successfully" << endl;
+        return;
+    }
+    catch (const invalid_argument &x)
+    {
+        cin >> imageName;
+        SaveCheck(usedImage, imageName);
     }
 }
 int GetChoice() // Displays the menu and gets the user's choice
 {
     int choice;
-    vector<string> choices = {"1- Load a new image", "2- GrayScale filter", "3- BlackAndWhite filter", "4- Flip image", "5- Brightness Adjustment", "6- Crop image", "7- Invert image", "8- Rotate image", "9- Save image", "10- Exit"};
+    vector<string> choices = {
+        "1- Load a new image",
+        "2- GrayScale filter",
+        "3- BlackAndWhite filter",
+        "4- Flip image",
+        "5- Brightness Adjustment",
+        "6- Crop image",
+        "7- Invert image",
+        "8- Rotate image",
+        "9- Edging",
+        "10- Merge",
+        "11- Save image",
+        "12- Exit"};
     cout << "Choose" << endl;
     for (int i = 0; i < choices.size(); i++)
     {
@@ -216,33 +375,22 @@ int GetChoice() // Displays the menu and gets the user's choice
 }
 int main() // main program
 {
+    string merged;
     bool menuDisplayed = true;
     bool loadImage = false;
     Image usedImage;
     string userInput;
+    Image mergedImage(usedImage.width, usedImage.height);
+    Image mergeMe(usedImage.width, usedImage.height);
+
     cout << "Input image" << endl;
     cin >> userInput;
-    while (!loadImage) // Loops until the image entered is valid
-    {
-        try
-        {
-            usedImage.loadNewImage(userInput);
-            loadImage = true;
-            cout << "Image loaded successfully" << endl;
-            break;
-        }
-        catch (
-
-            const exception &error)
-        {
-            cout << error.what() << "\nTry again\n"
-                 << endl;
-            cin >> userInput;
-        }
-    }
-    loadImage = false;
+    LoadCheck(userInput, usedImage);
     string imageName;
     bool wrongName = false;
+    float warmthFactor;
+    float contrastFactor;
+    int newWidth, newHeight;
 
     while (menuDisplayed) // Menu loop until user chooses to exit
     {
@@ -251,25 +399,7 @@ int main() // main program
         case 1: // Load new image
             cout << "Input image" << endl;
             cin >> userInput;
-            while (!loadImage)
-            {
-                try
-                {
-                    usedImage.loadNewImage(userInput);
-                    loadImage = true;
-                    cout << "Image loaded successfully" << endl;
-                }
-                catch (
-
-                    const exception &error)
-                {
-                    cout << error.what() << "\nTry again\n"
-                         << endl;
-                    cin >> userInput;
-                    loadImage = false;
-                }
-            }
-            loadImage = false;
+            LoadCheck(userInput, usedImage);
             break;
         case 2:
             GrayScale(usedImage);
@@ -315,29 +445,32 @@ int main() // main program
             rotate(usedImage);
             break;
         case 9:
-            wrongName = false;
-            cout << "Type the name that you would like to save the image with" << endl;
-            while (!wrongName)
-            {
-                wrongName = true;
-                cin >> imageName;
-                try
-                {
-                    usedImage.saveImage(imageName);
-                    cout << "Saved Successfully" << endl;
-                }
-                catch (
-
-                    const std::exception &x)
-                {
-                    wrongName = false;
-                }
-            }
-            wrongName = true;
+            Edging(usedImage);
             break;
         case 10:
+            cout << "Input the image you want to merge" << endl;
+            cin >> merged;
+
+            merge(usedImage, mergeMe, mergedImage);
+            usedImage = mergedImage;
+            break;
+        case 11:
+            cout << "Type the name that you would like to save the image with" << endl;
+            cin >> imageName;
+            SaveCheck(usedImage, imageName);
+            break;
+        case 12:
             menuDisplayed = false;
             break;
+        case 13:
+            cin >> warmthFactor;
+            cin >> contrastFactor;
+            FixWano(usedImage, warmthFactor, contrastFactor);
+        case 14:
+            cin >> newWidth >> newHeight;
+            Resize(usedImage, newWidth, newHeight);
+            break;
+
         default:
             break;
         }
