@@ -211,6 +211,7 @@ void blur(Image &image ){
     cout<<"Enter blur radius 0-100 \n";
     cin>>blurRadius;
     
+    
     //horizontal run
      for( int j = 0; j< image.height; j++ ){
        
@@ -365,8 +366,8 @@ void blur(Image &image ){
 
     
 
-void getFramecolor(unsigned char frameColor[3]){
-    cout<<"enter rgb values from 0-255 \n";
+void getRGB(unsigned char frameColor[3]){
+    cout<<"Enter RGB values from 0-255 consecutively \n";
 
     for(int i = 0; i < 3; i++){
         int inpt;
@@ -377,6 +378,46 @@ void getFramecolor(unsigned char frameColor[3]){
             continue;
         }
         frameColor[i] = static_cast<unsigned char>(inpt);
+    }
+}
+void getColorchoice (unsigned char frameColor[3]){
+    int choiceColor;
+    cout<<"enter a color \n 1-Red \n 2- Blue \n 3-Green \n 4-Black \n 5-White \n 6-Custom color \n"; 
+    cin>>choiceColor;
+    switch (choiceColor)
+    {
+    case 1:
+        frameColor[0] = 255;
+        frameColor[1] = 0;
+        frameColor[2] = 0;
+        break;
+    case 2:
+        frameColor[0] = 0;
+        frameColor[1] = 0;
+        frameColor[2] = 255;
+        break;
+    case 3:
+        frameColor[0] = 0;
+        frameColor[1] = 255;
+        frameColor[2] = 0;
+        break;
+    case 4:
+        frameColor[0] = 0;
+        frameColor[1] = 0;
+        frameColor[2] = 0;
+        break;
+    case 5:
+        frameColor[0] = 255;
+        frameColor[1] = 255;
+        frameColor[2] = 255;
+        break;
+    case 6:
+        getRGB(frameColor);
+        break;
+    default:
+        cout<<"invalid input, try again \n";
+        getRGB(frameColor);
+        break;
     }
 }
 void frame(Image &image){
@@ -397,8 +438,10 @@ void frame(Image &image){
         Image frame (frameWidth,frameHeight) ;
     
         unsigned char frameColor[3] ={0,0,0}; //rgb value control
+        getColorchoice(frameColor);
         
-        getFramecolor(frameColor);
+        
+       
         for (int i = 0; i < frame.width; i++) //fill the border with the chosen color
         {
             for (int j = 0; j < frame.height; j++)
@@ -442,7 +485,7 @@ void frame(Image &image){
         int lineThickness = offset/3;
         int gap = lineThickness/2; //gap between lines
         
-        getFramecolor(frameColor);
+        getColorchoice(frameColor);
         
 
          for (int i = 0; i < image.width; i++) //place the image in the middle of the frame
@@ -503,10 +546,11 @@ void RetroTV(Image &image) {
                 if(j%3==0) image(i, j, k) *= 0.5;
                 else {int value = static_cast<int>(image(i, j, k) * 1.5);
 
-                image(i, j, k) = std::min(255, std::max(0, value));}
+                      image(i, j, k) = std::min(255, std::max(0, value));}
                 
             }
         }
+
     }
     
 }
