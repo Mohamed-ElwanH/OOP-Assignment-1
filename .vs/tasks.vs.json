@@ -1,0 +1,10 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskLabel": "task-ass1",
+      "appliesTo": "ass.1/ass1.cpp",
+      "type": "launch"
+    }
+  ]
+}
