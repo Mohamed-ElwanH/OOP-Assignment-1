@@ -3,7 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\LOQ\\Documents\\GitHub\\OOP-Assignment-1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\College\\Structured programming\\Sheet1\\Project2\\Project2\\Source1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LOQ\\Documents\\GitHub\\OOP-Assignment-1\\ass.1\\ass1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ass.1\\ass1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LOQ\\Documents\\GitHub\\OOP-Assignment-1\\.vs\\tasks.vs.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:.vs\\tasks.vs.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -13,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -25,13 +30,28 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "tasks.vs.json",
+              "DocumentMoniker": "C:\\Users\\LOQ\\Documents\\GitHub\\OOP-Assignment-1\\.vs\\tasks.vs.json",
+              "RelativeDocumentMoniker": ".vs\\tasks.vs.json",
+              "ToolTip": "C:\\Users\\LOQ\\Documents\\GitHub\\OOP-Assignment-1\\.vs\\tasks.vs.json",
+              "RelativeToolTip": ".vs\\tasks.vs.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-09-25T20:05:00.789Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Source1.cpp",
-              "DocumentMoniker": "D:\\College\\Structured programming\\Sheet1\\Project2\\Project2\\Source1.cpp",
-              "ToolTip": "D:\\College\\Structured programming\\Sheet1\\Project2\\Project2\\Source1.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAANMAAAApAAAAAAAAAA==",
+              "Title": "ass1.cpp",
+              "DocumentMoniker": "C:\\Users\\LOQ\\Documents\\GitHub\\OOP-Assignment-1\\ass.1\\ass1.cpp",
+              "RelativeDocumentMoniker": "ass.1\\ass1.cpp",
+              "ToolTip": "C:\\Users\\LOQ\\Documents\\GitHub\\OOP-Assignment-1\\ass.1\\ass1.cpp",
+              "RelativeToolTip": "ass.1\\ass1.cpp",
+              "ViewState": "AgIAAKEAAAAAAAAAAAAgwLYAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-09-30T15:47:54.583Z",
+              "WhenOpened": "2025-09-25T19:40:22.58Z",
               "EditorCaption": ""
             }
           ]
