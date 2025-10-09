@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <cmath>
+#include <algorithm>
 using namespace std;
 void LoadCheck(string userInput, Image &usedImage)
 {
@@ -486,25 +487,94 @@ void frame(Image &image)
         }
     }
 }
-void merge
 
-    (Image &image) // Merges two images by averaging their pixel values
+void Resize
+
+    (Image &image,
+
+     int newWidth, int newHeight)
+{
+    Image newImage
+
+        (newWidth, newHeight);
+    float wRatio = static_cast<
+
+                       float>(image.width) /
+                   newWidth;
+    float hRatio = static_cast<
+
+                       float>(image.height) /
+                   newHeight;
+    for (int i = 0; i < newImage.width; i++)
+    {
+        for (int j = 0; j < newImage.height; j++)
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                newImage(i, j, k) = image(roundf(i * wRatio), roundf(j * hRatio), k);
+            }
+        }
+    }
+    image = newImage;
+}
+void merge(Image &image) // Merges two images by averaging their pixel values
 {
     Image mergeMe;
     string mergename;
     cout << "Input the name of the image you want to merge" << endl;
     cin >> mergename;
     LoadCheck(mergename, mergeMe);
-
+    bool crop = false;
+    int choice;
     if (image.width > mergeMe.width || image.height > mergeMe.height)
     {
-        CropImage(image, 0, 0, mergeMe.width, mergeMe.height);
-        image.width = mergeMe.width;
-        image.height = mergeMe.height;
+        cout << "The image you chose is smaller than the first image\n Choose whether to \n 1- Resize \n 2-Crop the original image\n";
+        cin >> choice;
+        if (choice == 2)
+        {
+
+            crop = true;
+            CropImage(image, 0, 0, mergeMe.width, mergeMe.height);
+            image.width = mergeMe.width;
+            image.height = mergeMe.height;
+        }
+        else
+        {
+            cout << "Choose whether to make the first image fit the second image or vice versa \n 1- First image fits second image \n 2- Second image fits first image \n";
+            cin >> choice;
+            if (choice == 1)
+                Resize(image, mergeMe.width, mergeMe.height);
+            else
+            {
+
+                Resize(mergeMe, image.width, image.height);
+            }
+        }
     }
     else if (mergeMe.width > image.width || mergeMe.height > image.height)
     {
-        CropImage(mergeMe, 0, 0, image.width, image.height);
+        cout << "The image you chose is bigger than the first image\n Choose whether to \n 1- Resize \n 2-Crop the new image\n";
+        cin >> choice;
+        if (choice == 2)
+        {
+
+            crop = true;
+            CropImage(mergeMe, 0, 0, image.width, image.height);
+            image.width = mergeMe.width;
+            image.height = mergeMe.height;
+        }
+        else
+        {
+            cout << "Choose whether to make the first image fit the second image or vice versa \n 1- First image fits second image \n 2- Second image fits first image \n";
+            cin >> choice;
+            if (choice == 1)
+                Resize(image, mergeMe.width, mergeMe.height);
+            else
+            {
+
+                Resize(mergeMe, image.width, image.height);
+            }
+        }
     }
     Image mergedImage
 
@@ -565,35 +635,6 @@ void EdgeDetect
     }
 }
 
-void Resize
-
-    (Image &image,
-
-     int newWidth, int newHeight)
-{
-    Image newImage
-
-        (newWidth, newHeight);
-    float wRatio = static_cast<
-
-                       float>(image.width) /
-                   newWidth;
-    float hRatio = static_cast<
-
-                       float>(image.height) /
-                   newHeight;
-    for (int i = 0; i < newImage.width; i++)
-    {
-        for (int j = 0; j < newImage.height; j++)
-        {
-            for (int k = 0; k < 3; k++)
-            {
-                newImage(i, j, k) = image(roundf(i * wRatio), roundf(j * hRatio), k);
-            }
-        }
-    }
-    image = newImage;
-}
 void RetroTV
 
     (Image &image)
@@ -645,8 +686,8 @@ void skew
 {
     int choice;
     bool left = false;
-    // cout << "1- skew left \n2- skew right \n";
-    // cin >> choice;
+    cout << "1- skew left \n2- skew right \n";
+    cin >> choice;
 
     double skewdeg;
     cout << "Enter skew degree (in degrees): ";
@@ -656,32 +697,32 @@ void skew
 
     int newWidth = image.width + abs(image.height * tan(skewdeg));
 
-    // if (choice == 1)
-    //{
-    //     left = true;
-    // }
-    Image skewedImage(newWidth, image.height);
-    for (int i = 0; i < image.width - 1; i++)
+    if (choice == 1)
     {
-        for (int j = 0; j < image.height - 1; j++)
+        left = true;
+    }
+    Image skewedImage(newWidth, image.height);
+    for (int i = 0; i < image.width; i++)
+    {
+        for (int j = 0; j < image.height; j++)
         {
             for (int k = 0; k < 3; k++)
             {
-                // if (left)
-                //{
+                if (left)
+                {
 
-                //  newI = (i + (abs(tan(skewdeg)) * (image.height - 1 - j)));
-                // skewedImage(newI, j, k) = image(i, j, k);
-                //}
-                // else
-                //  {
-                newI = (i + (tan(skewdeg) * j));
-                skewedImage(newI, j, k) = image(i, j, k);
-                //}
+                    newI = (i + (abs(tan(skewdeg)) * (image.height - 1 - j)));
+                    skewedImage(newI, j, k) = image(i, j, k);
+                }
+                else
+                {
+                    newI = (i + (tan(skewdeg) * j));
+                    skewedImage(newI, j, k) = image(i, j, k);
+                }
             }
         }
-        image = skewedImage;
     }
+    image = skewedImage;
 }
 void AdjustWarmth
 
