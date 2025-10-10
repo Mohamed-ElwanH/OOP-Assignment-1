@@ -591,14 +591,10 @@ void merge(Image &image) // Merges two images by averaging their pixel values
     }
     image = mergedImage;
 }
-void EdgeDetect
-
-    (Image &image)
+void EdgeDetect(Image &image)
 {
-    Image copy
-
-        (image.width, image.height);
-    copy = image;
+    Image copy(image.width, image.height);
+    copy = image; 
     GrayScale(image);
     int Gx[3][3] =
         {
@@ -624,12 +620,11 @@ void EdgeDetect
                     sumy += copy(i + m, j + n, 0) * Gy[m + 1][n + 1];
                 }
             }
-            int magnitude = min(255, max(0, static_cast<
-
-                                                int>(sqrt(sumx * sumx + sumy * sumy))));
+            int magnitude = min(255, max(0, static_cast<int>(sqrt(sumx * sumx + sumy * sumy))));
+           
             for (int k = 0; k < 3; k++)
             {
-                image(i, j, k) = 255 - magnitude;
+                image(i, j, k) = 255- magnitude;
             }
         }
     }
@@ -732,7 +727,8 @@ void AdjustWarmth
     {
         for (int j = 0; j < image.height; j++)
         {
-            image(i, j, 2) = (min<int>(255, max<int>(0, static_cast<int>(image(i, j, 2) * 0.7))));
+            image(i,j,1) = (min<int>(255, max<int>(0, static_cast<int>(image(i, j, 1) * 1.12))));
+            image(i, j,2) = (min<int>(255, max<int>(0, static_cast<int>(image(i, j, 2) * 0.7))));
         }
     }
 }
@@ -757,7 +753,7 @@ void OilPainting(Image &src)
                     int R = image(x, y, 0), G = image(x, y, 1), B = image(x, y, 2);
                     double avg = (R + G + B) / 3.0;
                     int curIntensity = static_cast<int>((avg * (intensityLevels - 1)) / 255.0);
-                    curIntensity = clamp(curIntensity, 0, intensityLevels - 1);
+                    curIntensity = min(curIntensity, max(0, intensityLevels - 1));
                     intensityCount[curIntensity]++;
                     averageR[curIntensity] += R;
                     averageG[curIntensity] += G;
