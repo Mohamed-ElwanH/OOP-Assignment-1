@@ -20,7 +20,7 @@ GrayScale Filter – Black and White Filter – Invert Image – Merge Two Image
 <algorithm>
 "image_class.h"
 
-## team 
+## Team 
 Mahmoud Ehab Ahmed 
 ID : 20240549
 Mohammed Ahmed Hamza
