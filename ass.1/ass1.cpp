@@ -766,7 +766,7 @@ void OilPainting(Image &src)
             }
             auto max_itrator = max_element(intensityCount.begin(), intensityCount.end());
             int maxIndex = distance(intensityCount.begin(), max_itrator);
-            if (intensityCount[maxIndex] > 0)//apply the most common intensity average to the pixel
+            if (intensityCount[maxIndex] > 0) // apply the most common intensity average to the pixel
             {
                 image(i, j, 0) = min(255, max(0, averageR[maxIndex] / intensityCount[maxIndex]));
                 image(i, j, 1) = min(255, max(0, averageG[maxIndex] / intensityCount[maxIndex]));
@@ -797,11 +797,12 @@ int GetChoice
             "12- Resize Image",
             "13- Blur Image",
             "14- Natural Sunlight Filter",
-            "15- Retro Tv Filter",
-            "16- Infrared Filter",
-            "17-Skew Image",
-            "18- Save Image",
-            "19- Exit"};
+            "15- Oil Painting Filter",
+            "16- Retro Tv Filter",
+            "17- Infrared Filter",
+            "18- Skew Image",
+            "19- Save Image",
+            "20- Exit"};
     cout << "Choose" << endl;
     for (int i = 0; i < choices.size(); i++)
     {
@@ -902,26 +903,27 @@ int main
             AdjustWarmth(usedImage);
             break;
         case 15:
-            RetroTV(usedImage);
+            OilPainting(usedImage);
             break;
         case 16:
-            infrared(usedImage);
+            RetroTV(usedImage);
             break;
         case 17:
-            skew(usedImage);
+            infrared(usedImage);
             break;
         case 18:
+            skew(usedImage);
+            break;
+        case 19:
             cout << "Type the name that you would like to save the image with" << endl;
             cin >> imageName;
             SaveCheck(usedImage, imageName);
             break;
 
-        case 19:
+        case 20:
             menuDisplayed = false;
             break;
-        case 20:
-            OilPainting(usedImage);
-            break;
+
         default:
             break;
         }
