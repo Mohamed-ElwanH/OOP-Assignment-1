@@ -1,3 +1,4 @@
+mermaid
 flowchart TD
 
     A[main()] --> B[LoadCheck(string, Image&)]
