@@ -1,9 +1,11 @@
 // Created by Mahmoud Ehab 20240549,Mohamed Ahmed Hamza 20242265, Yomna Abbas 20242399
-// Section X (Can't register yet)
-// Mahmoud Ehab did GreyScale,Adjust Brightness and participated in Main Menu and Load/Save Image
-// Mohamed Ahmed Hamza did BlackAndWhite, Crop Image, Flip Image Horizontally and Vertically and  Main Menu and Load/Save Image
-// Yomna Abbas did Invert Image, Rotate Image
+// All of us are in Section 6.
+// Mahmoud Ehab did Grayscale, Merge, Brightness adjustment, Edge detection, Skew, Infrared,  participated in Main Menu and Load/Save image
+// Mohamed Ahmed Hamza did BlackAndWhite, Crop Image, Flip Image Horizontally and Vertically, Resize, Natural light, Oil painting and Main Menu and Load/Save Image
+// Yomna Abbas did Invert Image, Rotate Image, Add Frame, Blur Image, Retro TV, Purple Filter
 // Repo Link: https://github.com/Mohamed-ElwanH/OOP-Assignment-1
+// Shared Document Link: https://docs.google.com/document/d/1GlZuzqQaO4qLRR6GKcV0H3zPLlk1UjhFW2EkxvNyn-o/edit?tab=t.0
+// Youtube Video Showcasing: https://youtu.be/fyok_bIvHCw
 // The File applies different filters on images based on the user's choice.
 #include "image_class.h"
 #include <vector>
@@ -113,9 +115,7 @@ void rotate(Image &image) // Rotates the image by 90, 180 or 270 degrees dependi
     cin >> deg;
     if (deg == 1) // Rotate 90 degrees
     {
-        Image rotated
-
-            (image.height, image.width);
+        Image rotated(image.height, image.width);
         for (int i = 0; i < image.height; i++)
         {
             for (int j = 0; j < image.width; j++)
@@ -130,9 +130,7 @@ void rotate(Image &image) // Rotates the image by 90, 180 or 270 degrees dependi
     }
     else if (deg == 2) // Rotate 180 degrees
     {
-        Image rotated
-
-            (image.width, image.height);
+        Image rotated(image.width, image.height);
         for (int i = 0; i < image.width; i++)
         {
             for (int j = 0; j < image.height; j++)
@@ -147,9 +145,7 @@ void rotate(Image &image) // Rotates the image by 90, 180 or 270 degrees dependi
     }
     else if (deg == 3) // Rotate 270 degrees
     {
-        Image rotated
-
-            (image.height, image.width);
+        Image rotated(image.height, image.width);
         for (int i = 0; i < image.height; i++)
         {
             for (int j = 0; j < image.width; j++)
@@ -167,9 +163,7 @@ void rotate(Image &image) // Rotates the image by 90, 180 or 270 degrees dependi
 void FlipImageHorizontally(Image &image) // Flips the image horizontally
 {
     int x = 0;
-    Image emptyImage
-
-        (image.width, image.height); // creating an empty image
+    Image emptyImage(image.width, image.height); // creating an empty image
     for (int i = image.width - 1; i >= 0; i--)
     {
         for (int j = 0; j < image.height; j++)
@@ -186,9 +180,7 @@ void FlipImageHorizontally(Image &image) // Flips the image horizontally
 void FlipImageVertically(Image &image) // Flips the image vertically
 {
     int y = image.height - 1;
-    Image emptyImage
-
-        (image.width, image.height); // Creates an empty image
+    Image emptyImage(image.width, image.height); // Creates an empty image
     for (int j = 0; j < image.height; j++)
     {
         for (int i = 0; i < image.width; i++)
@@ -205,9 +197,7 @@ void FlipImageVertically(Image &image) // Flips the image vertically
 void CropImage(Image &image, int x, int y, int width, int height) // Crops the image based on the user's input
 {
     int emptyX = 0;
-    Image emptyImage
-
-        (width, height);
+    Image emptyImage(width, height);
     for (int i = x; i < x + width; i++)
     {
         int emptyY = 0;
@@ -233,9 +223,7 @@ void AdjustBrightness(Image &image, float factor) // increases or decreases the 
         {
             for (int k = 0; k < 3; k++)
             {
-                int value = static_cast<
-
-                    int>(image(i, j, k) * factor);
+                int value = static_cast<int>(image(i, j, k) * factor);
 
                 image(i, j, k) = min(255, max(0, value));
             }
@@ -245,10 +233,8 @@ void AdjustBrightness(Image &image, float factor) // increases or decreases the 
 
 void blur(Image &image)
 {
-    Image blurredh
-
-        (image.width, image.height),
-        blurredv(image.width, image.height);
+    Image blurredh(image.width, image.height),
+    blurredv(image.width, image.height);
     int blurRadius;
     cout << "Enter blur radius 0-100 \n";
     cin >> blurRadius;
@@ -403,14 +389,9 @@ void frame(Image &image)
 
         int frameWidth = image.width + 2 * border;
         int frameHeight = image.height + 2 * border;
-        Image frame
+        Image frame(frameWidth, frameHeight);
 
-            (frameWidth, frameHeight);
-
-        unsigned char
-
-            frameColor[3] = {
-                0, 0, 0}; // rgb value control
+        unsigned char frameColor[3] = {0, 0, 0}; // rgb value control
         getColorchoice(frameColor);
 
         for (int i = 0; i < frame.width; i++) // fill the border with the chosen color
@@ -443,10 +424,7 @@ void frame(Image &image)
 
     else if (choice == 2)
     {
-        unsigned char
-
-            frameColor[3] = {
-                0, 0, 0}; // rgb value control
+        unsigned char frameColor[3] = {0, 0, 0}; // rgb value control
         int offset = 0.05 * min(image.height, image.width);
         int lineThickness = offset / 3;
         int gap = lineThickness / 2; // gap between lines
@@ -490,21 +468,11 @@ void frame(Image &image)
 
 void Resize
 
-    (Image &image,
-
-     int newWidth, int newHeight)
+    (Image &image,int newWidth, int newHeight)
 {
-    Image newImage
-
-        (newWidth, newHeight);
-    float wRatio = static_cast<
-
-                       float>(image.width) /
-                   newWidth;
-    float hRatio = static_cast<
-
-                       float>(image.height) /
-                   newHeight;
+    Image newImage(newWidth, newHeight);
+    float wRatio = static_cast<float>(image.width) /newWidth;
+    float hRatio = static_cast<float>(image.height) /newHeight;
     for (int i = 0; i < newImage.width; i++)
     {
         for (int j = 0; j < newImage.height; j++)
@@ -576,9 +544,7 @@ void merge(Image &image) // Merges two images by averaging their pixel values
             }
         }
     }
-    Image mergedImage
-
-        (image.width, image.height);
+    Image mergedImage(image.width, image.height);
     for (int i = 0; i < image.width; i++)
     {
         for (int j = 0; j < image.height; j++)
@@ -630,9 +596,7 @@ void EdgeDetect(Image &image)
     }
 }
 
-void RetroTV
-
-    (Image &image)
+void RetroTV(Image &image)
 {
 
     for (int i = 0; i < image.width; i++)
@@ -641,14 +605,11 @@ void RetroTV
         {
             for (int k = 0; k < 3; k++)
             {
-
                 if (j % 3 == 0)
                     image(i, j, k) *= 0.5;
                 else
                 {
-                    int value = static_cast<
-
-                        int>(image(i, j, k) * 1.5);
+                    int value = static_cast<int>(image(i, j, k) * 1.5);
 
                     image(i, j, k) = min(255, max(0, value));
                 }
@@ -657,11 +618,8 @@ void RetroTV
     }
 }
 
-void infrared
-
-    (Image &image) // Converts the image to infrared colors
+void infrared(Image &image) // Converts the image to infrared colors
 {
-
     for (int i = 0; i < image.width; i++)
     {
         for (int j = 0; j < image.height; j++)
@@ -672,12 +630,9 @@ void infrared
             }
         }
     }
-
     invert(image);
 }
-void skew
-
-    (Image &image)
+void skew(Image &image)
 {
     int choice;
     bool left = false;
@@ -719,9 +674,7 @@ void skew
     }
     image = skewedImage;
 }
-void AdjustWarmth
-
-    (Image &image)
+void AdjustWarmth(Image &image)
 {
     for (int i = 0; i < image.width; i++)
     {
@@ -785,9 +738,7 @@ void purple(Image &image)
     }
     
 }
-int GetChoice
-
-    () // Displays the menu and gets the user's choice
+int GetChoice() // Displays the menu and gets the user's choice
 {
     int choice;
     vector<string> choices =
@@ -821,9 +772,7 @@ int GetChoice
     cin >> choice;
     return choice;
 }
-int main
-
-    () // main program
+int main() // main program
 {
     string merged;
     bool menuDisplayed = true;
@@ -858,7 +807,7 @@ int main
         case 6: // Flip options
             int choice;
             cout << "1- Flip image horizontally" << endl
-                 << "2- Flip image vertically" << "3- cancel" << endl;
+                 << "2- Flip image vertically" << endl << "3- cancel" << endl;
             cin >> choice;
             switch (choice)
             {
@@ -897,6 +846,7 @@ int main
             EdgeDetect(usedImage);
             break;
         case 12:
+            cout << "Enter the new width then the new height.";
             cin >> newWidth >> newHeight;
             Resize(usedImage, newWidth, newHeight);
             break;
