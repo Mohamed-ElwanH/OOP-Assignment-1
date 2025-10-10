@@ -732,29 +732,49 @@ void AdjustWarmth
     {
         for (int j = 0; j < image.height; j++)
         {
-            image(i, j, 0) = (min<
-
-                              int>(255, max<
-
-                                            int>(0, static_cast<
-
-                                                        int>(image(i, j, 0) * 1.1))));
-            image(i, j, 1) = (min<
-
-                              int>(255, max<
-
-                                            int>(0, static_cast<
-
-                                                        int>(image(i, j, 1) * 1.2))));
-            image(i, j, 2) = (min<
-
-                              int>(255, max<
-
-                                            int>(0, static_cast<
-
-                                                        int>(image(i, j, 2)))));
+            image(i, j, 2) = (min<int>(255, max<int>(0, static_cast<int>(image(i, j, 2) * 0.7))));
         }
     }
+}
+void OilPainting(Image &src)
+{
+    Image image = src;
+    int intensityLevels = 30, radius = 1;
+    for (int i = radius; i < image.width - radius; i++)
+    {
+        for (int j = radius; j < image.height - radius; j++)
+        {
+            vector<int> intensityCount(intensityLevels);
+            vector<int> averageR(intensityLevels);
+            vector<int> averageG(intensityLevels);
+            vector<int> averageB(intensityLevels);
+            for (int x = i - radius; x <= i + radius; x++)
+            {
+                for (int y = j - radius; y <= j + radius; y++) // each pixel, within radius 5 of pixel
+                {
+                    // For each sub-pixel, calculate the intensity, and determine which intensity that intensity number falls into.
+
+                    int R = image(x, y, 0), G = image(x, y, 1), B = image(x, y, 2);
+                    double avg = (R + G + B) / 3.0;
+                    int curIntensity = static_cast<int>((avg * (intensityLevels - 1)) / 255.0);
+                    curIntensity = clamp(curIntensity, 0, intensityLevels - 1);
+                    intensityCount[curIntensity]++;
+                    averageR[curIntensity] += R;
+                    averageG[curIntensity] += G;
+                    averageB[curIntensity] += B;
+                }
+            }
+            auto max_itrator = max_element(intensityCount.begin(), intensityCount.end());
+            int maxIndex = distance(intensityCount.begin(), max_itrator);
+            if (intensityCount[maxIndex] > 0)//apply the most common intensity average to the pixel
+            {
+                image(i, j, 0) = min(255, max(0, averageR[maxIndex] / intensityCount[maxIndex]));
+                image(i, j, 1) = min(255, max(0, averageG[maxIndex] / intensityCount[maxIndex]));
+                image(i, j, 2) = min(255, max(0, averageB[maxIndex] / intensityCount[maxIndex]));
+            }
+        }
+    }
+    src = image;
 }
 int GetChoice
 
@@ -898,6 +918,9 @@ int main
 
         case 19:
             menuDisplayed = false;
+            break;
+        case 20:
+            OilPainting(usedImage);
             break;
         default:
             break;
