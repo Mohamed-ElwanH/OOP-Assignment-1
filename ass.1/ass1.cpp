@@ -1,4 +1,4 @@
-// Created by Mahmoud Ehab 20240549,Mohamed Ahmed Hamza 20242265, Yomna Abbas 20242399
+// Created by Mahmoud Ehab 20240549, Mohamed Ahmed Hamza 20242265, Yomna Abbas 20242399
 // All of us are in Section 6.
 // Mahmoud Ehab did Grayscale, Merge, Brightness adjustment, Edge detection, Skew, Infrared,  participated in Main Menu and Load/Save image
 // Mohamed Ahmed Hamza did BlackAndWhite, Crop Image, Flip Image Horizontally and Vertically, Resize, Natural light, Oil painting and Main Menu and Load/Save Image
