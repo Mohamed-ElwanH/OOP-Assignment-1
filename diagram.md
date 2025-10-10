@@ -1,3 +1,4 @@
+```mermaid
 flowchart TD
 
     A["main"] --> B["LoadCheck"]
@@ -38,3 +39,4 @@ flowchart TD
     G --> G3["imageName"]
     G --> G4["newWidth & newHeight"]
     G --> G5["user-driven filter selection"]
+```
