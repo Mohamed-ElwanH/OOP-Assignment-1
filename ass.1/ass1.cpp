@@ -753,7 +753,7 @@ void OilPainting(Image &src)
                     int R = image(x, y, 0), G = image(x, y, 1), B = image(x, y, 2);
                     double avg = (R + G + B) / 3.0;
                     int curIntensity = static_cast<int>((avg * (intensityLevels - 1)) / 255.0);
-                    curIntensity = min(curIntensity, max(0, intensityLevels - 1));
+                    curIntensity = max(0, min(curIntensity, intensityLevels - 1));
                     intensityCount[curIntensity]++;
                     averageR[curIntensity] += R;
                     averageG[curIntensity] += G;
@@ -772,6 +772,19 @@ void OilPainting(Image &src)
     }
     src = image;
 }
+void purple(Image &image)
+{
+    for (int i = 0; i < image.width; i++)
+    {
+        for (int j = 0; j < image.height; j++)
+        {
+            image(i, j, 0) = min(255.0, (image(i, j, 0) *1.5));
+            image(i, j, 1) = max(0.0, (image(i, j, 1) *0.5));
+            image(i, j, 2) = min(255.0, (image(i, j, 2) *1.5));
+        }
+    }
+    
+}
 int GetChoice
 
     () // Displays the menu and gets the user's choice
@@ -779,15 +792,15 @@ int GetChoice
     int choice;
     vector<string> choices =
         {
-            "1- Load a new image",
-            "2- GrayScale Filter",
-            "3- Black And White Filter",
-            "4- Invert Image",
-            "5- Merge Two Images",
-            "6- Flip Image",
-            "7- Rotate Image",
-            "8- Adjust Image Brightness",
-            "9- Crop Image",
+            "01- Load a new image",
+            "02- GrayScale Filter",
+            "03- Black And White Filter",
+            "04- Invert Image",
+            "05- Merge Two Images",
+            "06- Flip Image",
+            "07- Rotate Image",
+            "08- Adjust Image Brightness",
+            "09- Crop Image",
             "10- Add frame",
             "11- Detect Edges",
             "12- Resize Image",
@@ -795,10 +808,11 @@ int GetChoice
             "14- Natural Sunlight Filter",
             "15- Oil Painting Filter",
             "16- Retro Tv Filter",
-            "17- Infrared Filter",
-            "18- Skew Image",
-            "19- Save Image",
-            "20- Exit"};
+            "17- Purple Filter",
+            "18- Infrared Filter",
+            "19- Skew Image",
+            "20- Save Image",
+            "21- Exit"};
     cout << "Choose" << endl;
     for (int i = 0; i < choices.size(); i++)
     {
@@ -905,18 +919,21 @@ int main
             RetroTV(usedImage);
             break;
         case 17:
-            infrared(usedImage);
+            purple(usedImage);
             break;
         case 18:
-            skew(usedImage);
+            infrared(usedImage);
             break;
         case 19:
+            skew(usedImage);
+            break;
+        case 20:
             cout << "Type the name that you would like to save the image with" << endl;
             cin >> imageName;
             SaveCheck(usedImage, imageName);
             break;
 
-        case 20:
+        case 21:
             menuDisplayed = false;
             break;
 
