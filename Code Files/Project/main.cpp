@@ -1211,7 +1211,7 @@ int main(int, char**)
                         if (ImGui::Button("6 - Custom RGB", buttonSize))
                         {
                             choiceColor2 = 6;
-                            nextFramePopup = 3;
+                            nextFramePopup = 6;
                             ImGui::CloseCurrentPopup();
                         }
                         ImGui::EndPopup();
@@ -1248,7 +1248,8 @@ int main(int, char**)
 
 
 
-
+                    ImGui::SetNextWindowPos(ImVec2((ImGui::GetIO().DisplaySize.x - 400) / 2, (ImGui::GetIO().DisplaySize.y - 300) / 2), ImGuiCond_Always);
+                    ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_Always);
                     if (ImGui::BeginPopupModal("Custom RGB values for second color", &rgbPopup2, ImGuiWindowFlags_NoResize))
                     {
                         ImGui::Text("Set RGB values (0-255)");
