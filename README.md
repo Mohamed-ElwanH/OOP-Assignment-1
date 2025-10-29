@@ -1,7 +1,7 @@
 # Image Filter Program
 
 ##  Overview
-This is a **C++ console-based image processing program** that allows users to apply multiple filters and effects to images.  
+This is a **C++ GUI-based image processing program** that allows users to apply multiple filters and effects to images.  
 It demonstrates practical image manipulation through pixel-level operations.
 
 ## Features
