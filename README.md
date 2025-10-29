@@ -34,7 +34,20 @@ When finished, simply close the window or press the standard X button. Your expo
 <string>
 <vector>
 <algorithm>
+<d3d11.h>
+<tchar.h>
+
+"imgui.h"
+
+"imgui_impl_win32.h"
+
+"imgui_impl_dx11.h"
+
+"ImGuiFileDialog.h"
+
 "image_class.h"
+
+"ass1.h"
 
 ## Team 
 Mahmoud Ehab Ahmed 
